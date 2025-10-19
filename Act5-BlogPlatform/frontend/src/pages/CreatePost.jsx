@@ -1,7 +1,7 @@
 // frontend/src/pages/CreatePost.jsx
 import React, { useState } from 'react';
 import useAuth from '../auth/useAuth';
-import { api } from '../api';
+import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 

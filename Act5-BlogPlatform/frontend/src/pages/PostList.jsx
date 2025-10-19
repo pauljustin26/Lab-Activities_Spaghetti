@@ -1,6 +1,6 @@
 // frontend/src/pages/PostList.jsx
 import React, { useEffect, useState } from 'react';
-import { api } from '../api';
+import { api } from '../api/api';
 import { Link } from 'react-router-dom';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 

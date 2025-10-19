@@ -1,6 +1,6 @@
 // frontend/src/pages/Register.jsx
 import React, { useState } from 'react';
-import { api } from '../api';
+import { api } from '../api/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 

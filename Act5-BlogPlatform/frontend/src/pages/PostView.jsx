@@ -1,6 +1,6 @@
 // frontend/src/pages/PostView.jsx
 import React, { useEffect, useState } from 'react';
-import { api } from '../api';
+import { api } from '../api/api';
 import { useParams } from 'react-router-dom';
 import useAuth from '../auth/useAuth';
 import { ChatBubbleLeftRightIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';

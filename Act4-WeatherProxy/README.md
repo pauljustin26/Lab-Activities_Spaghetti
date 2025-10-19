@@ -17,8 +17,8 @@ It allows users to input a city name and view real-time weather details such as 
 
 ---
 
-## Project Structure
-
+```bash
+📂 Project Structure
 weather-proxy-app/
 │
 ├── backend/ # NestJS Backend
@@ -94,16 +94,9 @@ Backend
 NestJS
 Axios
 @nestjs/config (for environment variables)
-
 API
 OpenWeatherMap (https://openweathermap.org/api
 )
 
-Example Screenshot
+Example UI
 ![alt text](image.png)
-
-Future Improvements
-Display feels-like temperature, humidity, and wind speed
-Auto-detect location via geolocation API
-Save recent searches to MongoDB
-Light/Dark mode toggle

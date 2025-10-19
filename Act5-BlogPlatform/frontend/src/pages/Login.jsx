@@ -1,6 +1,6 @@
 // frontend/src/pages/Login.jsx
 import React, { useState } from 'react';
-import { api } from '../api';
+import { api } from '../api/api';
 import useAuth from '../auth/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';

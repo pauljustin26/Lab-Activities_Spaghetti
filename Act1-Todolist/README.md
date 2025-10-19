@@ -1,96 +1,102 @@
-#  Activity 1 — To-Do List API + UI
+# Activity 1 — To-Do List API + UI
 
-This is a **full-stack to-do application** built with **NestJS** for the backend and **React** for the frontend.  
-Users can create, update, delete, and mark tasks as complete.  
-The backend exposes REST APIs (documented using **Swagger**), while the frontend provides an intuitive UI for managing and organizing tasks — implementing the **CRUD** operations.
+A simple full-stack To-Do List Application built with NestJS (Backend), React + Vite (Frontend), and MongoDB for data persistence.
+It allows users to create, update, delete, and mark tasks as complete, with all CRUD operations connected to a RESTful backend API.
 
----
+## Features
 
-## Overview
-
-The **To-Do List Application** allows users to efficiently manage tasks.  
-Users can:
-- **Create** new tasks  
-- **View** all tasks  
-- **Update** existing tasks (title or completion status)  
-- **Delete** tasks  
-- **Organize** tasks into *Active* and *Completed* categories  
-
-**Tech Stack:**
-- **Backend:** NestJS + MongoDB  
-- **Frontend:** React (Vite)  
-- **API Documentation:** Swagger UI  
+- Create, update, and delete tasks
+- View all active and completed tasks
+- Update task titles or mark them as completed/incomplete
+- Organized into Active and Completed categories
+- Persistent storage using MongoDB
+- REST API documented using Swagger UI
+- Built with React (Vite) for a fast and responsive interface
 
 ---
 
-## ⚙️ Prerequisites
+```bash
+📂 Project Structure
+todo-app/
+│
+├── backend/              # NestJS Backend
+│   ├── src/
+│   │   ├── tasks/
+│   │   │   ├── tasks.controller.ts
+│   │   │   ├── tasks.service.ts
+│   │   │   ├── schemas/task.schema.ts
+│   │   │   └── dto/create-task.dto.ts
+│   │   ├── app.module.ts
+│   │   └── main.ts
+│   ├── .env              # MongoDB connection string
+│   └── package.json
+│
+├── frontend/             # React (Vite) Frontend
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── components/
+│   │   │   ├── TaskList.jsx
+│   │   │   ├── TaskForm.jsx
+│   │   │   └── TaskItem.jsx
+│   │   ├── api/api.js
+│   │   └── main.jsx
+│   ├── vite.config.js
+│   ├── package.json
+│   └── index.html
+│
+└── README.md
 
-Before running the app, ensure you have:
-- **Node.js v18+** installed  
-- **MongoDB** running locally  
-  (Default connection: `mongodb://localhost:27017/todo-app`)
+Backend Setup (NestJS + MongoDB)
 
----
-
-## Instructions to Run the Project
-
-### Backend (NestJS + MongoDB)
-
-1. **Navigate to the backend directory:**
-
-cd todo-backend
-
-Install dependencies
+1️⃣ Install Dependencies
+cd backend
 npm install
 
-Set up MongoDB connection:
-Make sure MongoDB is running locally, or
-Update the .env file with your connection string:
-
+2️⃣ Configure Environment Variables
+Create a .env file inside the backend folder:
 MONGO_URI=mongodb://localhost:27017/todo-app
 
----
+3️⃣ Enable CORS (for React frontend)
+Make sure main.ts includes:
+app.enableCors({
+  origin: 'http://localhost:5173',
+});
 
-Start the NestJS development server:
+4️⃣ Run the Backend Server
 npm run start:dev
-Open Swagger UI to test the API
+
+
+Backend runs by default on:
+http://localhost:3000
+
+Swagger UI is available at:
 http://localhost:3000/api
 
-Frontend (React)
-Navigate to the frontend directory:
+Frontend Setup (React + Vite)
 
-cd todo-frontend
-Install dependencies:
-
+1️⃣ Install Dependencies
+cd frontend
 npm install
 
----
+2️⃣ Run the Development Server
+npm run dev
 
-Start the React development server:
-npm start
-Open the app in your browse
+
+Frontend runs by default on:
 http://localhost:5173
 
----
-
-Usage Guide
-Add new tasks using the input form.
-Edit tasks by clicking the edit icon.
-Mark tasks as completed/incomplete using the checkbox icon.
-Delete tasks with the trash/delete icon.
 
 
-Working System (Frontend UI)
-![alt text](image.png)
+Technologies Used:
+Frontend
+React (Vite + JSX)
+Axios for API requests
+CSS / Tailwind (optional) for styling
 
----
-
-Summary
-
-This project demonstrates:
-Integration of NestJS REST APIs with a React frontend
-CRUD operations with MongoDB
+Backend
+NestJS
+MongoDB + Mongoose
 Swagger for API documentation
-Clean, responsive task management UI
+dotenv for environment management
 
-BS Information Technology - Cavite State University
+Example UI:
