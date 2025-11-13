@@ -1,4 +1,4 @@
-import React from 'react';
+// notes-frontend/src/components/NoteItem.jsx
 
 export default function NoteItem({ note, onDelete }) {
   return (

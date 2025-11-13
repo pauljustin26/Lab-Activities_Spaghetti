@@ -6,7 +6,7 @@ import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/bookshelf'),
+    MongooseModule.forRoot('mongodb://localhost:27017/bookshelf-db'),
     BooksModule,
     AuthorsModule,
     CategoriesModule,

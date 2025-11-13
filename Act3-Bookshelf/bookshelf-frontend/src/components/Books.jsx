@@ -1,108 +1,171 @@
-import React, { useState, useEffect } from "react";
-import { 
-  fetchBooks, createBook, updateBook, deleteBook,
-  fetchAuthors, fetchCategories
-} from "../api/api";
+import React, { useState, useRef, useEffect } from "react";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
+import { deleteBook } from "../api/api";
 
-export default function Books() {
-  const [books, setBooks] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState({ title: "", author: "", category: "" });
-  const [editingId, setEditingId] = useState(null);
+export default function Books({ books, setBooks }) {
+  const [selectedBook, setSelectedBook] = useState(null);
+  const descRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Load books, authors, categories
-  const loadBooks = () => fetchBooks().then(res => setBooks(res.data));
-  const loadAuthors = () => fetchAuthors().then(res => setAuthors(res.data));
-  const loadCategories = () => fetchCategories().then(res => setCategories(res.data));
-
+  // Click outside to deselect book
   useEffect(() => {
-    loadBooks();
-    loadAuthors();
-    loadCategories();
+    const handleClickOutside = (e) => {
+      if (descRef.current && !descRef.current.contains(e.target)) {
+        setSelectedBook(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editingId) {
-      updateBook(editingId, form).then(() => {
-        setForm({ title: "", author: "", category: "" });
-        setEditingId(null);
-        loadBooks();
-      });
-    } else {
-      createBook(form).then(() => {
-        setForm({ title: "", author: "", category: "" });
-        loadBooks();
-      });
+  // Delete book
+  const handleDelete = async (id) => {
+    try {
+      await deleteBook(id);
+      setBooks(books.filter((b) => b._id !== id));
+      setSelectedBook(null);
+    } catch (err) {
+      console.error("Error deleting book:", err);
     }
   };
 
-  const handleEdit = (book) => {
-    setForm({ title: book.title, author: book.author, category: book.category });
-    setEditingId(book._id);
+  // Format date
+  const formatDate = (date) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString();
   };
 
-  const handleDelete = (id) => deleteBook(id).then(loadBooks);
-
   return (
-    <div>
-      <h2>Bookshelf</h2>
-
-      {/* Book Form */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Title"
-          value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
-          required
-          style={{ marginRight: "10px" }}
-        />
-
-        <select
-          value={form.author}
-          onChange={e => setForm({ ...form, author: e.target.value })}
-          required
-          style={{ marginRight: "10px" }}
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {/* Books List */}
+      <div style={{ flex: 1, marginRight: "20px" }}>
+        <button
+          onClick={() => navigate("/add-books")}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#4B0000",
+            color: "#fff",
+            borderRadius: "20px",
+            border: "none",
+            cursor: "pointer",
+            marginBottom: "20px",
+          }}
         >
-          <option value="">Select Author</option>
-          {authors.map(a => (
-            <option key={a._id} value={a.name}>{a.name}</option>
-          ))}
-        </select>
+          + Add Books
+        </button>
 
-        <select
-          value={form.category}
-          onChange={e => setForm({ ...form, category: e.target.value })}
-          required
-          style={{ marginRight: "10px" }}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "15px",
+            backgroundColor: "#f5f5f5",
+            padding: "20px",
+            borderRadius: "20px",
+            minHeight: "200px",
+          }}
         >
-          <option value="">Select Category</option>
-          {categories.map(c => (
-            <option key={c._id} value={c.name}>{c.name}</option>
-          ))}
-        </select>
+          {books.length === 0 ? (
+            <p style={{ color: "#999", width: "100%", textAlign: "center" }}>
+              Your bookshelf is empty.
+            </p>
+          ) : (
+            books.map((book) => (
+              <div
+                key={book._id}
+                onClick={() => setSelectedBook(book)}
+                style={{
+                  backgroundColor: "#fff",
+                  borderRadius: "10px",
+                  padding: "10px",
+                  width: "150px",
+                  minHeight: "180px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  transition: "all 0.3s",
+                }}
+              >
+                <div>
+                  <p style={{ margin: 0, fontWeight: "800", fontSize: "18px" }}>
+                    {book.title || "Untitled"}
+                  </p>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    <strong>Author:</strong> {book.authorId?.name || "Unknown"}
+                  </p>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    <strong>Category:</strong> {book.categoryId?.name || "Uncategorized"}
+                  </p>
+                  {book.publishedDate && (
+                    <p style={{ margin: 0, fontSize: "13px" }}>
+                      <strong>Published:</strong> {formatDate(book.publishedDate)}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
 
-        <button type="submit">{editingId ? "Update" : "Add"}</button>
-      </form>
+      {/* Description Panel */}
+      <div
+        ref={descRef}
+        style={{
+          width: "350px",
+          minHeight: "300px",
+          backgroundColor: "#fff",
+          boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+          padding: "25px",
+          borderRadius: "20px",
+          alignSelf: "flex-start",
+          marginTop: "55px",
+        }}
+      >
+        {selectedBook ? (
+          <>
+            <h2 style={{ fontSize: "24px", fontWeight: "700", marginBottom: "10px" }}>
+              {selectedBook.title || "Untitled"}
+            </h2>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Author:</strong> {selectedBook.authorId?.name || "Unknown"}
+            </p>
+            <p style={{ margin: "5px 0" }}>
+              <strong>Category:</strong> {selectedBook.categoryId?.name || "Uncategorized"}
+            </p>
+            {selectedBook.publishedDate && (
+              <p style={{ margin: "5px 0" }}>
+                <strong>Published:</strong> {formatDate(selectedBook.publishedDate)}
+              </p>
+            )}
 
-      {/* Bookshelf Cards */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
-        {books.map(book => (
-          <div key={book._id} style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            width: "200px",
-            borderRadius: "5px",
-            boxShadow: "1px 1px 5px rgba(0,0,0,0.1)"
-          }}>
-            <h3 style={{ margin: "0 0 5px 0" }}>{book.title}</h3>
-            <p style={{ margin: "0 0 5px 0" }}><strong>Author:</strong> {book.author}</p>
-            <p style={{ margin: "0 0 5px 0" }}><strong>Category:</strong> {book.category}</p>
-            <button onClick={() => handleEdit(book)} style={{ marginRight: "5px" }}>Edit</button>
-            <button onClick={() => handleDelete(book._id)}>Delete</button>
-          </div>
-        ))}
+            <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+              <button
+                onClick={() => handleDelete(selectedBook._id)}
+                style={{
+                  backgroundColor: "#b00020",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "none",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                <TrashIcon style={{ width: "20px" }} />
+              </button>
+            </div>
+          </>
+        ) : (
+          <p style={{ color: "#999", textAlign: "center", marginTop: "120px" }}>
+            Select a book for description.
+          </p>
+        )}
       </div>
     </div>
   );

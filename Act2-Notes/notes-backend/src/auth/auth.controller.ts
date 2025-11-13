@@ -1,3 +1,4 @@
+// notes-backend/src/auth/auth.controller.ts
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -8,7 +9,6 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() dto: RegisterDto){
-    // check if user already exists
     try {
       return await this.authService.register(dto);
     } catch (err) {

@@ -1,3 +1,4 @@
+// notes-backend/src/notes/notes.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Note } from './schemas/note.schema';

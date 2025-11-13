@@ -6,7 +6,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    // req.user set by JwtStrategy
     return req.user;
   }
 }

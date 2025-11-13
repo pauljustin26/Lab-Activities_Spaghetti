@@ -8,7 +8,7 @@ import { TaskModule } from './tasks/task.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/todo-app'),
+    MongooseModule.forRoot(process.env.MONGO_URI || ''),
     TaskModule,
   ],
 })

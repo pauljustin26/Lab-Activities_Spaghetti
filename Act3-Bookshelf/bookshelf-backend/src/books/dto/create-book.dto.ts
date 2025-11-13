@@ -1,6 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateBookDto {
-  readonly title: string;
-  readonly author: string;
-  readonly category: string;
-  readonly publishedDate?: Date;
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
+  authorId: string; // MongoDB ObjectId as string
+
+  @ApiProperty()
+  categoryId: string; // MongoDB ObjectId as string
+
+  @ApiProperty({ required: false })
+  publishedDate?: Date;
+
+  @ApiProperty({ required: false })
+  description?: string;
 }

@@ -40,9 +40,13 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-sky-500 via-indigo-600 to-blue-800 text-white p-6 font-sans">
-      <h1 className="text-5xl font-extrabold mb-8 drop-shadow-lg text-center">🌤️ Weather Proxy</h1>
+      
+      <h1 className="text-5xl font-extrabold mb-8 drop-shadow-lg text-center">
+        🌤️ Weather Proxy
+      </h1>
 
       <div className="bg-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-md backdrop-blur-md border border-white/20 transition transform hover:scale-[1.02]">
+        
         {/* Search Box */}
         <div className="flex items-center bg-white/20 rounded-lg overflow-hidden">
           <input
@@ -86,7 +90,7 @@ function App() {
 
       {/* Footer */}
       <p className="mt-8 text-sm text-gray-200 opacity-80">
-        Made with 💙 using React + TailwindCSS + NestJS
+        Made with React + TailwindCSS + NestJS
       </p>
     </div>
   );

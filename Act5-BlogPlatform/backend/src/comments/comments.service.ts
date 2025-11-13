@@ -13,7 +13,6 @@ export class CommentsService {
   async create(dto: CreateCommentDto, authorId: string){
     const created = new this.commentModel({ post: dto.postId, author: authorId, content: dto.content });
     const saved = await created.save();
-    // update comment count
     await this.postsService.incCommentsCount(dto.postId);
     return saved.populate('author', 'username');
   }

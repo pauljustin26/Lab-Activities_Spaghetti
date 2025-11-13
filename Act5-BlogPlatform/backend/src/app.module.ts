@@ -10,7 +10,7 @@ dotenv.config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI ?? ''), // ✅ provide fallback empty string
+    MongooseModule.forRoot(process.env.MONGO_URI ?? ''),
     UsersModule,
     AuthModule,
     PostsModule,

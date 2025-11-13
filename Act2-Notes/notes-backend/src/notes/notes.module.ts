@@ -1,3 +1,4 @@
+// notes-backend/src/notes/notes.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotesService } from './notes.service';

@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
-import { Book } from './schemas/book.schema';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
+@ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Post()
-  create(@Body() createBookDto: CreateBookDto): Promise<Book> {
-    return this.booksService.create(createBookDto);
+  @ApiOperation({ summary: 'Create a new book' })
+  async create(@Body() dto: CreateBookDto) {
+    return this.booksService.create(dto);
   }
 
   @Get()
-  findAll(): Promise<Book[]> {
+  @ApiOperation({ summary: 'Get all books' })
+  async findAll() {
     return this.booksService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Book | null> {
-    return this.booksService.findOne(id);
+  @ApiOperation({ summary: 'Get book by ID' })
+  async findById(@Param('id') id: string) {
+    return this.booksService.findById(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: CreateBookDto): Promise<Book | null> {
-    return this.booksService.update(id, updateBookDto);
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update a book' })
+  async update(@Param('id') id: string, @Body() dto: Partial<CreateBookDto>) {
+    return this.booksService.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<Book | null> {
-    return this.booksService.remove(id);
+  @ApiOperation({ summary: 'Delete a book' })
+  async remove(@Param('id') id: string) {
+    await this.booksService.delete(id);
+    return { message: 'Book deleted successfully' };
   }
 }

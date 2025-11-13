@@ -1,4 +1,12 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateAuthorDto {
-  readonly name: string;
-  readonly bio?: string;
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty({ required: false })
+  bio?: string;
+
+  @ApiProperty({ required: false })
+  birthDate?: Date;
 }

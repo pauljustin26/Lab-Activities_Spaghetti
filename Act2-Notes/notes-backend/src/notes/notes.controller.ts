@@ -1,3 +1,4 @@
+// notes-backend/src/notes/notes.controller.ts
 import { Controller, Get, Post, Put, Delete, Body, Param, Request, UseGuards } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

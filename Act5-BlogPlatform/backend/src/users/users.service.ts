@@ -10,7 +10,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  // Registration
   async create(createUserDto: CreateUserDto) {
     const hashed = await bcrypt.hash(createUserDto.password, 10);
     const created = new this.userModel({ ...createUserDto, password: hashed });

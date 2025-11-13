@@ -9,7 +9,7 @@ import { PostsModule } from '../posts/posts.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
-    PostsModule, // for incrementing commentsCount
+    PostsModule,
   ],
   providers: [CommentsService],
   controllers: [CommentsController],

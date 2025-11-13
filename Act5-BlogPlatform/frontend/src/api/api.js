@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// frontend/src/api/api.js
+const API_URL = 'http://localhost:3000';
 
 export async function api(path, { method = 'GET', body, token, headers = {} } = {}) {
   const opts = {
